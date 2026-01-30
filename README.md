@@ -2,7 +2,7 @@
 Para que el proyecto funcione correctamente, sigue estos pasos:
 
 1. Clonar el repositorio
-git clone 
+git clone challange-house-of-CB
 cd CHALLANGE/task-manager
 
 2. Configurar variables de entorno
