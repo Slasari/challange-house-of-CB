@@ -14,7 +14,7 @@ Copia el contenido de .env.example y pégalo en tu nuevo archivo .env.local
 
 Rellena los valores con las siguientes credenciales (que te enviaré por [correo/mensaje privado]):
 
-# Ejemplo de lo que verás en tu .env
+Ejemplo de lo que verás en tu .env
 NEXT_PUBLIC_SUPABASE_URL=https://tu-url.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-clave-anon
 Nota para el evaluador: He omitido los valores reales en el repositorio por seguridad. Si necesitas las credenciales de prueba, por favor contacta conmigo.
