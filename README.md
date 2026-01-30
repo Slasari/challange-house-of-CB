@@ -2,9 +2,10 @@
 Para que el proyecto funcione correctamente, sigue estos pasos:
 
 # 1. Clonar el repositorio
-git clone challange-house-of-CB
-cd CHALLANGE/task-manager
-
+```bash
+git clone https://github.com/Slasari/challange-house-of-CB.git
+cd challange-house-of-CB
+```
 # 2. Configurar variables de entorno
 El proyecto necesita conectarse a Supabase. Como las credenciales son privadas, he dejado un archivo de ejemplo:
 
@@ -20,9 +21,11 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-clave-anon
 Nota para el evaluador: He omitido los valores reales en el repositorio por seguridad. Si necesitas las credenciales de prueba, por favor contacta conmigo.
 
 # 3. Instalar y Correr
+```bash
 npm install
 
 npm run dev
+```
 
 # Task Manager App
 
