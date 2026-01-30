@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+🚀 Guía de Configuración Local
+Para que el proyecto funcione correctamente, sigue estos pasos:
 
-## Getting Started
+1. Clonar el repositorio
+git clone 
+cd CHALLANGE/task-manager
 
-First, run the development server:
+2. Configurar variables de entorno
+El proyecto necesita conectarse a Supabase. Como las credenciales son privadas, he dejado un archivo de ejemplo:
 
-```bash
+En la raíz del proyecto, crea un nuevo archivo llamado .env.local
+
+Copia el contenido de .env.example y pégalo en tu nuevo archivo .env.local
+
+Rellena los valores con las siguientes credenciales (que te enviaré por [correo/mensaje privado]):
+
+# Ejemplo de lo que verás en tu .env
+NEXT_PUBLIC_SUPABASE_URL=https://tu-url.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-clave-anon
+Nota para el evaluador: He omitido los valores reales en el repositorio por seguridad. Si necesitas las credenciales de prueba, por favor contacta conmigo.
+
+3. Instalar y Correr
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Task Manager App
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Web App de gestión de tareas, construida con **Next.js**, **React**, **TypeScript** y **Supabase**, para gestionar tareas de manera individual por usuario.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+La aplicación permite:
 
-## Learn More
+- Registro e inicio de sesión
+- Rutas protegidas para usuarios logueados
+- Crear, listar, editar (inline), marcar completadas y eliminar tareas
+- Logout
+- Redirección automática si el usuario ya está logueado
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tecnologías usadas
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Next.js 13 (App Router)**  
+- **React + TypeScript**  
+- **Supabase** (Auth + PostgreSQL)  
+- **CSS básico** (puede adaptarse a Tailwind si se desea)  
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
