@@ -1,6 +1,6 @@
 'use server'
 
-import { supabase } from '@/lib/supabaseClient';
+import { getSupabaseServer } from '@/lib/supabaseClient';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -10,6 +10,8 @@ interface AuthCredentials {
 }
 
 export async function login({email, password}: AuthCredentials) {
+
+    const supabase = await getSupabaseServer()
 
   const {data, error} = await supabase.auth.signInWithPassword({email, password})
 
@@ -39,6 +41,8 @@ export async function logout() {
 }
 
 export async function register({email, password}: AuthCredentials){
+
+    const supabase = await getSupabaseServer()
     const {data, error} = await supabase.auth.signUp({email, password})
     if(error || !data.user){
         return error?.message

@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import { logout } from "../actions/auth";
+import { addTaskAction, deleteTaskAction, getTasksAction, toggleTaskAction, updateTaskAction } from "../actions/tasks";
 import decoderToken from "../actions/decoderToken";
 
 type User = {
@@ -37,47 +37,27 @@ export default function TasksPage() {
         setLoading(false);
       }
       userData()
-    const fetchTasks = async (userId: string) => {
-      const { data, error } = await supabase
-        .from("tasks")
-        .select("*")
-        .eq("user_id", userId)
-        .order("created_at", { ascending: false });
-      if (error) {
-        console.error("Error fetching tasks:", error.message);
-      } else {
-        setTasks(data ?? []);
-      }
-    };
-    /* const fetchUser = async () => {
-      const { data } = await supabase.auth.getSession();
-      if (!data.session) {
-        router.push("/login");
-      } else {
-        const currentUser = {
-          id: data.session.user.id,
-          email: data.session.user.email || "Usuario",
-        };
-        setUser(currentUser);
-        fetchTasks(currentUser.id);
-      }
 
-      setLoading(false);
-    };
+      async function fetchTasks() {
+        try{
+            const tasksData = await getTasksAction();
+            setTasks(tasksData);
+        } catch (err){
+            console.log("Error al obtener tareas", err)
+        } finally {
+            setLoading(false)
+        }
 
-    fetchUser(); */
+    }
+    fetchTasks();
   }, [router]);
 
   const addTask = async () => {
     if (!newTask.trim() || !user) return;
 
-    const { data, error } = await supabase
-      .from("tasks")
-      .insert([{ title: newTask, user_id: user.userId }])
-      .select();
-
+    const { data, error } = await addTaskAction(newTask)
     if (error) {
-      console.error("Error adding task:", error.message);
+      console.error("Error adding task:", error);
     } else {
       setTasks((prev) => [data![0], ...prev]);
       setNewTask("");
@@ -85,42 +65,33 @@ export default function TasksPage() {
   };
 
   const toggleTask = async (task: Task) => {
-    const { data, error } = await supabase
-      .from("tasks")
-      .update({ completed: !task.completed })
-      .eq("id", task.id)
-      .select();
 
-    if (error) {
-      console.error("Error updating task:", error.message);
+    const res = await toggleTaskAction({taskId: task.id, completed: !task.completed})
+
+    if (res.error) {
+      console.error("Error updating task:", res.error);
     } else {
-      setTasks((prev) => prev.map((t) => (t.id === task.id ? data![0] : t)));
+      setTasks((prev) => prev.map((t) => (t.id === task.id ? res.data![0] : t)));
     }
   };
 
   const updateTaskTitle = async (taskId: string) => {
     if (!editingTitle.trim()) return;
-
-    const { data, error } = await supabase
-      .from("tasks")
-      .update({ title: editingTitle })
-      .eq("id", taskId)
-      .select();
-
-    if (error) {
-      console.error("Error updating task:", error.message);
+    const res = await updateTaskAction({taskId, title: editingTitle})
+    if (res.error) {
+      console.error("Error updating task:", res.error);
     } else {
-      setTasks((prev) => prev.map((t) => (t.id === taskId ? data![0] : t)));
+      setTasks((prev) => prev.map((t) => (t.id === taskId ? res.data![0] : t)));
       setEditingTaskId(null);
       setEditingTitle("");
     }
   };
 
   const deleteTask = async (task: Task) => {
-    const { error } = await supabase.from("tasks").delete().eq("id", task.id);
 
+    const error = await deleteTaskAction(task.id)
     if (error) {
-      console.error("Error deleting task:", error.message);
+      console.error("Error deleting task:", error);
     } else {
       setTasks((prev) => prev.filter((t) => t.id !== task.id));
     }
