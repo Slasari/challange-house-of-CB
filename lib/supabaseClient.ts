@@ -6,10 +6,8 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 export const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
 
 
-// 2. CLIENTE PARA EL SERVIDOR (Server Actions / API)
-// Este es el que necesita el truco del fetch para las RLS.
 export const getSupabaseServer = async () => {
-  const { cookies } = await import("next/headers"); // Importación dinámica para que no rompa el cliente
+  const { cookies } = await import("next/headers")
   const cookieStore = await cookies();
   const token = cookieStore.get("auth_token")?.value;
 
