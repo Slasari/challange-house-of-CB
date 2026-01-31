@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { register } from "../actions/auth";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export default function RegisterPage() {
     setLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signUp({
+    const error = await register({
       email,
       password,
     });
@@ -24,23 +24,10 @@ export default function RegisterPage() {
     setLoading(false);
 
     if (error) {
-      setError(error.message);
+      setError(error);
       return;
     }
-
-    router.push("/");
   };
-
-  useEffect(() => {
-    const checkSession = async () => {
-        const {data} = await supabase.auth.getSession()
-        if(data.session) {
-            router.push("/")
-        }
-    }
-
-    checkSession()
-  }, [router])
 
   return (
     <main className="flex items-center justify-center min-h-screen p-8">

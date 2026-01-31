@@ -1,46 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { login } from "../actions/auth";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const error = await login({email, password})
 
     setLoading(false);
 
     if (error) {
-      setError(error.message);
+      setError(error);
       return;
     }
-
-    router.push("/");
   };
-
-  useEffect(() => {
-      const checkSession = async () => {
-          const {data} = await supabase.auth.getSession()
-          if(data.session) {
-              router.push("/")
-          }
-      }
-  
-      checkSession()
-    }, [router])
 
   return (
     <main className="flex items-center justify-center min-h-screen p-8">
